@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="A web-based Choose Your Own Adventure game engine">
+        <meta name="theme-color" content="#2c3e50">
+        <title>CYOA Engine</title>
+
+        <!-- Stylesheets -->
+        <link rel="stylesheet" href="styles/main.css">
+        <link rel="stylesheet" href="styles/editor.css">
+        <link rel="stylesheet" href="styles/player.css">
+
+        <!-- CodeMirror -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/closebrackets.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/matchbrackets.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/fold/foldcode.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/fold/foldgutter.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/fold/brace-fold.min.js"></script>
+
+        <!-- App Scripts -->
+        <script type="module" src="scripts/core/app.js"></script>
+    </head>
+    <body>
+        <header>
+            <nav id="main-nav">
+                <button id="newGame" aria-label="New Game">New</button>
+                <button id="loadGame" aria-label="Load Game">Load</button>
+                <button id="saveGame" aria-label="Save Game">Save</button>
+                <div class="mode-toggle">
+                    <button id="playMode" aria-label="Switch to Play Mode">Play</button>
+                    <button id="editMode" aria-label="Switch to Edit Mode">Edit</button>
+                </div>
+            </nav>
+        </header>
+
+        <main>
+            <!-- Player View -->
+            <section id="player-view" class="view hidden">
+                <div id="story-content"></div>
+                <div id="choices"></div>
+                <div id="game-modules"></div>
+            </section>
+
+            <!-- Editor View -->
+            <section id="editor-view" class="view">
+                <div class="editor-toolbar">
+                    <button id="sourceMode" aria-label="Switch to Source Mode">Source</button>
+                    <button id="gridMode" aria-label="Switch to Grid Mode">Grid</button>
+                </div>
+
+                <div id="source-editor" class="editor-panel">
+                    <div id="json-editor"></div>
+                </div>
+
+                <div id="grid-editor" class="editor-panel hidden">
+                    <div id="node-canvas"></div>
+                    <div id="minimap"></div>
+                </div>
+
+                <div id="module-panel">
+                    <h3>Modules</h3>
+                    <div id="module-list"></div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <div id="status-bar"></div>
+        </footer>
+
+        <!-- Templates for dynamic content -->
+        <template id="choice-template">
+            <button class="choice-btn"></button>
+        </template>
+
+        <template id="node-template">
+            <div class="story-node" draggable="true">
+                <div class="node-header"></div>
+                <div class="node-content"></div>
+                <div class="node-choices"></div>
+            </div>
+        </template>
+    </body>
+</html>

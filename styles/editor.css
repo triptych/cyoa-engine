@@ -1,0 +1,217 @@
+/* Editor Specific Styles */
+
+/* Source Mode */
+#source-editor {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 200px);
+}
+
+#json-editor {
+    width: 100%;
+    height: 100%;
+    resize: none;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 1rem;
+    font-family: 'Monaco', 'Consolas', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    tab-size: 2;
+    background-color: var(--background-color);
+}
+
+/* Grid Mode */
+#grid-editor {
+    position: relative;
+    height: calc(100vh - 200px);
+    overflow: hidden;
+}
+
+#node-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    cursor: grab;
+}
+
+#node-canvas.dragging {
+    cursor: grabbing;
+}
+
+/* Node Styles */
+.story-node {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    min-width: 250px;
+    max-width: 350px;
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.story-node.selected {
+    border: 2px solid var(--secondary-color);
+}
+
+.story-node .node-header {
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.story-node .node-content {
+    min-height: 100px;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+}
+
+.story-node .node-choices {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* Connection Lines */
+.connection-line {
+    position: absolute;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.connection-line path {
+    stroke: var(--secondary-color);
+    stroke-width: 2;
+    fill: none;
+}
+
+/* Connection Points */
+.connection-point {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--secondary-color);
+    position: absolute;
+    cursor: pointer;
+}
+
+.connection-point:hover {
+    transform: scale(1.2);
+}
+
+.connection-point.input {
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.connection-point.output {
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Minimap */
+#minimap {
+    border: 1px solid var(--border-color);
+    background: white;
+    z-index: 100;
+}
+
+#minimap .viewport {
+    position: absolute;
+    border: 2px solid var(--secondary-color);
+    background: rgba(52, 152, 219, 0.1);
+}
+
+/* Module Panel */
+#module-panel {
+    border-top: 1px solid var(--border-color);
+    margin-top: 1rem;
+    padding-top: 1rem;
+}
+
+.module-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+}
+
+.module-item.active {
+    background-color: var(--background-color);
+    border-color: var(--secondary-color);
+}
+
+/* Dark Theme Adjustments */
+@media (prefers-color-scheme: dark) {
+    #json-editor {
+        background-color: #2d3436;
+        color: var(--dark-text);
+    }
+
+    .story-node {
+        background-color: #2d3436;
+        color: var(--dark-text);
+    }
+
+    .connection-line path {
+        stroke: #3498db;
+    }
+
+    #minimap {
+        background-color: #2d3436;
+    }
+
+    .module-item {
+        background-color: #2d3436;
+        border-color: #4a4a4a;
+    }
+
+    .module-item.active {
+        background-color: #353b48;
+        border-color: var(--secondary-color);
+    }
+}
+
+/* Animations */
+.story-node {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.story-node:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+.connection-point {
+    transition: transform 0.2s;
+}
+
+/* Accessibility */
+.story-node:focus-within {
+    outline: 2px solid var(--secondary-color);
+    outline-offset: 2px;
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) {
+    .story-node:hover {
+        transform: none;
+        box-shadow: 0 2px 4px var(--shadow-color);
+    }
+
+    .connection-point {
+        width: 16px;
+        height: 16px;
+    }
+}
