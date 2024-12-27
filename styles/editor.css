@@ -24,8 +24,98 @@
 /* Grid Mode */
 #grid-editor {
     position: relative;
-    height: calc(100vh - 200px);
+    height: calc(100vh - 300px);
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Tab System */
+.grid-tabs {
+    display: flex;
+    gap: 1px;
+    background: var(--border-color);
+    padding: 0 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.tab-button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    background: var(--background-color);
+    color: var(--text-color);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+}
+
+.tab-button:hover {
+    background: var(--hover-color);
+}
+
+.tab-button.active {
+    background: var(--secondary-color);
+    color: white;
+}
+
+.tab-content {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+}
+
+.tab-pane {
+    display: none;
+    width: 100%;
+    height: 100%;
+}
+
+.tab-pane.active {
+    display: flex;
+}
+
+/* Grid Mode */
+.tab-pane[data-tab="grid"] {
+    flex-direction: row;
+}
+
+/* Grid Layout */
+.grid-container {
+    flex: 1;
+    position: relative;
+    min-width: 0; /* Allows container to shrink below content size */
+    display: flex;
+}
+
+/* Properties Panel */
+.properties-panel {
+    width: 300px;
+    min-width: 300px;
+    max-width: 400px;
+    padding: 1rem;
+    border-left: 1px solid var(--border-color);
+    background: var(--background-color);
+    overflow-y: auto;
+    resize: horizontal;
+    display: flex;
+    flex-direction: column;
+}
+
+.properties-panel h3 {
+    margin-top: 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+#node-properties {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+
+/* When properties panel is open */
+.grid-container.with-properties {
+    flex: 1;
 }
 
 #node-canvas {
@@ -36,6 +126,7 @@
     height: 100%;
     overflow: auto;
     cursor: grab;
+    min-width: 500px; /* Ensure minimum width for usability */
 }
 
 #node-canvas.dragging {
@@ -132,9 +223,11 @@
 
 /* Module Panel */
 #module-panel {
-    border-top: 1px solid var(--border-color);
-    margin-top: 1rem;
-    padding-top: 1rem;
+    padding: 1rem;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    background: var(--background-color);
 }
 
 .module-item {

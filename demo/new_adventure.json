@@ -1,0 +1,28 @@
+{
+  "title": "New Adventure",
+  "description": "A brand new choose your own adventure story",
+  "startNode": "start",
+  "nodes": {
+    "start": {
+      "text": "You find yourself at a crossroads. Which path will you choose?",
+      "choices": [
+        {
+          "text": "Take the left path",
+          "nextNode": "left_path"
+        },
+        {
+          "text": "Take the right path",
+          "nextNode": "right_path"
+        }
+      ]
+    },
+    "left_path": {
+      "text": "You chose the left path. It leads to a dark forest.",
+      "choices": []
+    },
+    "right_path": {
+      "text": "You chose the right path. It leads to a sunny meadow.",
+      "choices": []
+    }
+  }
+}

@@ -45,6 +45,7 @@
                 <div id="story-content"></div>
                 <div id="choices"></div>
                 <div id="game-modules"></div>
+                <button id="reset-game" class="reset-btn" aria-label="Reset Game">Reset Game</button>
             </section>
 
             <!-- Editor View -->
@@ -59,13 +60,28 @@
                 </div>
 
                 <div id="grid-editor" class="editor-panel hidden">
-                    <div id="node-canvas"></div>
-                    <div id="minimap"></div>
-                </div>
-
-                <div id="module-panel">
-                    <h3>Modules</h3>
-                    <div id="module-list"></div>
+                    <div class="grid-tabs">
+                        <button class="tab-button active" data-tab="grid">Grid View</button>
+                        <button class="tab-button" data-tab="modules">Modules</button>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane active" data-tab="grid">
+                            <div class="grid-container">
+                                <div id="node-canvas"></div>
+                                <div id="minimap"></div>
+                            </div>
+                            <div class="properties-panel">
+                                <h3>Properties</h3>
+                                <div id="node-properties"></div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" data-tab="modules">
+                            <div id="module-panel">
+                                <h3>Modules</h3>
+                                <div id="module-list"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
         </main>

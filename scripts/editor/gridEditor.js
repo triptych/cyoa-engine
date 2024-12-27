@@ -29,6 +29,30 @@ export class GridEditor {
 
         // Initialize minimap
         this.setupMinimap();
+
+        // Initialize tabs
+        this.setupTabs();
+    }
+
+    setupTabs() {
+        const tabButtons = this.container.querySelectorAll('.tab-button');
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons and panes
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                this.container.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+
+                // Add active class to clicked button and corresponding pane
+                button.classList.add('active');
+                const tabName = button.dataset.tab;
+                this.container.querySelector(`.tab-pane[data-tab="${tabName}"]`).classList.add('active');
+
+                // Refresh the grid if switching to grid tab
+                if (tabName === 'grid') {
+                    this.refresh();
+                }
+            });
+        });
     }
 
     setupConnectionLayer() {
@@ -125,7 +149,24 @@ export class GridEditor {
 
         // Create nodes from game state
         const nodes = this.editor.getAllNodes();
-        Object.entries(nodes).forEach(([nodeId, nodeData]) => {
+
+        // Calculate grid layout
+        const nodeSpacing = 400; // Horizontal spacing between nodes
+        const rowSpacing = 300;  // Vertical spacing between rows
+        const nodesPerRow = 3;   // Maximum nodes per row
+
+        Object.entries(nodes).forEach(([nodeId, nodeData], index) => {
+            // If no position is set, calculate grid position
+            if (!nodeData.position || (nodeData.position.x === 0 && nodeData.position.y === 0)) {
+                const row = Math.floor(index / nodesPerRow);
+                const col = index % nodesPerRow;
+                nodeData.position = {
+                    x: col * nodeSpacing + 50, // 50px initial offset
+                    y: row * rowSpacing + 50
+                };
+                // Update node position in editor state
+                this.editor.updateNode(nodeId, { position: nodeData.position });
+            }
             this.createNodeElement(nodeId, nodeData);
         });
 
@@ -338,12 +379,43 @@ export class GridEditor {
 
     createNodeAtPosition(e) {
         const rect = this.canvas.getBoundingClientRect();
-        const position = {
-            x: (e.clientX - rect.left) / this.scale - this.offset.x,
-            y: (e.clientY - rect.top) / this.scale - this.offset.y
-        };
 
-        const nodeId = this.editor.createNode({ position });
+        // Find the least crowded area
+        const existingPositions = Array.from(this.nodes.values()).map(node => {
+            const transform = node.style.transform;
+            const x = parseInt(transform.match(/translateX\((\d+)px\)/)[1]);
+            const y = parseInt(transform.match(/translateY\((\d+)px\)/)[1]);
+            return { x, y };
+        });
+
+        // Calculate position with minimum overlap
+        let bestPosition = { x: 0, y: 0 };
+        let maxDistance = 0;
+
+        const clickX = (e.clientX - rect.left) / this.scale - this.offset.x;
+        const clickY = (e.clientY - rect.top) / this.scale - this.offset.y;
+
+        // If no existing nodes, place at click position
+        if (existingPositions.length === 0) {
+            bestPosition = { x: clickX, y: clickY };
+        } else {
+            // Grid search around click position
+            for (let x = clickX - 400; x <= clickX + 400; x += 200) {
+                for (let y = clickY - 300; y <= clickY + 300; y += 150) {
+                    let minDist = Infinity;
+                    existingPositions.forEach(pos => {
+                        const dist = Math.sqrt(Math.pow(x - pos.x, 2) + Math.pow(y - pos.y, 2));
+                        minDist = Math.min(minDist, dist);
+                    });
+                    if (minDist > maxDistance) {
+                        maxDistance = minDist;
+                        bestPosition = { x, y };
+                    }
+                }
+            }
+        }
+
+        const nodeId = this.editor.createNode({ position: bestPosition });
         this.refresh();
 
         const node = this.nodes.get(nodeId);

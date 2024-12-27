@@ -18,8 +18,9 @@ export class Player {
             this.storyContent = document.getElementById('story-content');
             this.choicesContainer = document.getElementById('choices');
             this.moduleContainer = document.getElementById('game-modules');
+            this.resetButton = document.getElementById('reset-game');
 
-            if (!this.container || !this.storyContent || !this.choicesContainer || !this.moduleContainer) {
+            if (!this.container || !this.storyContent || !this.choicesContainer || !this.moduleContainer || !this.resetButton) {
                 throw new Error('Required player UI elements not found');
             }
 
@@ -189,6 +190,34 @@ export class Player {
             if (actionBtn) {
                 this.handleModuleAction(actionBtn.dataset.action);
             }
+        });
+
+        // Handle reset button click
+        this.resetButton.addEventListener('click', () => {
+            // Preserve the current nodes and metadata
+            const { nodes, metadata } = this.app.state.data;
+
+            // Reset game state
+            this.app.state.data.gameState = {
+                currentNode: 'start',
+                inventory: [],
+                variables: {},
+                stats: {
+                    health: 100,
+                    attack: 10,
+                    defense: 5,
+                    experience: 0,
+                    gold: 0
+                },
+                history: []
+            };
+
+            // Restore nodes and metadata
+            this.app.state.data.nodes = nodes;
+            this.app.state.data.metadata = metadata;
+
+            this.refresh();
+            this.app.setStatus('Game reset', 'success');
         });
     }
 
