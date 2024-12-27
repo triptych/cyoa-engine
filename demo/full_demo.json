@@ -1,0 +1,1052 @@
+{
+  "version": "1.0",
+  "metadata": {
+    "title": "The Crystal Kingdom",
+    "author": "Demo Creator",
+    "created": "2024-01-15T00:00:00.000Z",
+    "lastModified": "2024-01-15T00:00:00.000Z"
+  },
+  "gameState": {
+    "currentNode": "intro",
+    "inventory": [],
+    "variables": {
+      "hasMap": false,
+      "dragonDefeated": false,
+      "crystalsPurified": 0,
+      "reputation": 0
+    },
+    "stats": {
+      "health": 100,
+      "maxHealth": 100,
+      "attack": 10,
+      "defense": 5,
+      "magic": 0,
+      "experience": 0,
+      "level": 1,
+      "gold": 0
+    },
+    "history": []
+  },
+  "nodes": {
+    "intro": {
+      "type": "story",
+      "content": "*Welcome to the Crystal Kingdom*\n\nIn a realm where magic flows through ancient crystals, darkness has begun to spread. As a chosen hero, you must embark on a quest to save the kingdom.\n\n_Choose your starting class:_",
+      "choices": [
+        {
+          "text": "⚔️ Warrior - High strength and defense",
+          "nextNode": "character_created",
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "attack",
+              "value": 15
+            },
+            {
+              "type": "stat",
+              "stat": "defense",
+              "value": 10
+            },
+            {
+              "type": "item",
+              "itemId": "iron_sword",
+              "quantity": 1
+            },
+            {
+              "type": "item",
+              "itemId": "shield",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "text": "🧙‍♂️ Mage - Powerful magic abilities",
+          "nextNode": "character_created",
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "magic",
+              "value": 20
+            },
+            {
+              "type": "stat",
+              "stat": "attack",
+              "value": 5
+            },
+            {
+              "type": "item",
+              "itemId": "staff",
+              "quantity": 1
+            },
+            {
+              "type": "item",
+              "itemId": "spell_book",
+              "quantity": 1
+            }
+          ]
+        }
+      ],
+      "modules": {
+        "story": {
+          "type": "story",
+          "content": "*Welcome to the Crystal Kingdom*\n\nIn a realm where magic flows through ancient crystals, darkness has begun to spread. As a chosen hero, you must embark on a quest to save the kingdom.\n\n_Choose your starting class:_"
+        },
+        "graphics": {
+          "background": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23291D4D'/%3E%3Cpolygon points='50,20 80,80 20,80' fill='%237A6BB5'/%3E%3Ccircle cx='50' cy='40' r='15' fill='%23B5A6FF'/%3E%3C/svg%3E",
+          "animation": "fadeIn"
+        }
+      }
+    },
+    "character_created": {
+      "type": "story",
+      "content": "You stand at the entrance of Crystal City, its once-brilliant towers now dulled by the spreading darkness. A guard approaches you with urgency.\n\n'Thank goodness you've arrived! The city needs your help. The central crystal has been corrupted, and monsters roam the streets.'",
+      "choices": [
+        {
+          "text": "Visit the Marketplace first",
+          "nextNode": "marketplace"
+        },
+        {
+          "text": "Head directly to the Central Plaza",
+          "nextNode": "plaza"
+        }
+      ],
+      "modules": {
+        "story": {
+          "type": "story",
+          "content": "You stand at the entrance of Crystal City, its once-brilliant towers now dulled by the spreading darkness. A guard approaches you with urgency.\n\n'Thank goodness you've arrived! The city needs your help. The central crystal has been corrupted, and monsters roam the streets.'"
+        },
+        "graphics": {
+          "background": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23394B59'/%3E%3Cpath d='M20,80 L50,30 L80,80 Z' fill='%238A9BA8'/%3E%3Crect x='35' y='60' width='30' height='20' fill='%23738694'/%3E%3C/svg%3E",
+          "characters": [
+            {
+              "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 50 50'%3E%3Ccircle cx='25' cy='15' r='10' fill='%23738694'/%3E%3Cpath d='M15,25 L35,25 L25,45 Z' fill='%23738694'/%3E%3C/svg%3E",
+              "position": "center",
+              "animation": "slideIn"
+            }
+          ]
+        }
+      }
+    },
+    "marketplace": {
+      "type": "story",
+      "content": "The marketplace is mostly deserted, but a few brave merchants remain. An old shopkeeper waves you over to his stall.",
+      "choices": [
+        {
+          "text": "Browse his wares",
+          "nextNode": "shop_menu"
+        },
+        {
+          "text": "Ask about the crystal corruption",
+          "nextNode": "shop_info"
+        }
+      ],
+      "modules": {
+        "story": {
+          "type": "story",
+          "content": "The marketplace is mostly deserted, but a few brave merchants remain. An old shopkeeper waves you over to his stall."
+        },
+        "graphics": {
+          "background": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23734D26'/%3E%3Crect x='20' y='40' width='60' height='40' fill='%23A67C52'/%3E%3Cpath d='M30,40 L50,20 L70,40 Z' fill='%23BF8F60'/%3E%3C/svg%3E",
+          "characters": [
+            {
+              "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 50 50'%3E%3Ccircle cx='25' cy='15' r='8' fill='%23D4A276'/%3E%3Cpath d='M15,25 L35,25 L25,45 Z' fill='%23D4A276'/%3E%3C/svg%3E",
+              "position": "right",
+              "animation": "bounce"
+            }
+          ]
+        }
+      }
+    },
+    "shop_menu": {
+      "type": "story",
+      "content": "'Take a look at my special items,' the shopkeeper says.",
+      "choices": [
+        {
+          "text": "Buy Health Potion (50 gold)",
+          "nextNode": "marketplace",
+          "conditions": [
+            {
+              "type": "stat",
+              "stat": "gold",
+              "value": 50,
+              "comparison": ">="
+            }
+          ],
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "gold",
+              "value": -50
+            },
+            {
+              "type": "item",
+              "itemId": "health_potion",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "text": "Buy Crystal Map (100 gold)",
+          "nextNode": "marketplace",
+          "conditions": [
+            {
+              "type": "stat",
+              "stat": "gold",
+              "value": 100,
+              "comparison": ">="
+            },
+            {
+              "type": "variable",
+              "name": "hasMap",
+              "value": false
+            }
+          ],
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "gold",
+              "value": -100
+            },
+            {
+              "type": "variable",
+              "name": "hasMap",
+              "value": true
+            }
+          ]
+        },
+        {
+          "text": "Leave shop",
+          "nextNode": "marketplace"
+        }
+      ],
+      "modules": {
+        "story": {
+          "type": "story",
+          "content": "'Take a look at my special items,' the shopkeeper says."
+        },
+        "inventory": {
+          "items": [
+            {
+              "id": "health_potion",
+              "name": "Health Potion",
+              "description": "Restores 50 HP",
+              "type": "consumable",
+              "effect": {
+                "type": "heal",
+                "value": 50
+              }
+            },
+            {
+              "id": "crystal_map",
+              "name": "Crystal Map",
+              "description": "Shows locations of all crystals",
+              "type": "key_item"
+            }
+          ]
+        }
+      }
+    },
+    "shop_info": {
+      "type": "story",
+      "content": "'The corruption started a week ago when a dark dragon was seen circling the central tower. It's said only the ancient crystal sword can defeat it, but the sword was broken into three shards and scattered across the kingdom.'",
+      "choices": [
+        {
+          "text": "Thank him and head to the plaza",
+          "nextNode": "plaza"
+        }
+      ],
+      "modules": {
+        "story": {
+          "type": "story",
+          "content": "'The corruption started a week ago when a dark dragon was seen circling the central tower. It's said only the ancient crystal sword can defeat it, but the sword was broken into three shards and scattered across the kingdom.'"
+        },
+        "graphics": {
+          "background": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23734D26'/%3E%3Crect x='20' y='40' width='60' height='40' fill='%23A67C52'/%3E%3Cpath d='M30,40 L50,20 L70,40 Z' fill='%23BF8F60'/%3E%3C/svg%3E"
+        }
+      }
+    },
+    "plaza": {
+      "type": "battle",
+      "content": "As you enter the plaza, a corrupted crystal guardian blocks your path!",
+      "choices": [
+        {
+          "text": "Continue",
+          "nextNode": "plaza_cleared",
+          "condition": "victory"
+        },
+        {
+          "text": "Game Over",
+          "nextNode": "game_over",
+          "condition": "defeat"
+        }
+      ],
+      "modules": {
+        "story": {
+          "type": "story",
+          "content": "As you enter the plaza, a corrupted crystal guardian blocks your path!"
+        },
+        "battle": {
+          "enemy": {
+            "name": "Corrupted Guardian",
+            "health": 80,
+            "attack": 12,
+            "defense": 8,
+            "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 50 50'%3E%3Cpolygon points='25,5 45,40 5,40' fill='%23937AC4'/%3E%3Crect x='20' y='20' width='10' height='10' fill='%23FF0000'/%3E%3C/svg%3E"
+          },
+          "rewards": {
+            "experience": 100,
+            "gold": 150
+          }
+        },
+        "graphics": {
+          "background": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23291D4D'/%3E%3Ccircle cx='50' cy='50' r='30' fill='%237A6BB5'/%3E%3C/svg%3E",
+          "animation": "shake"
+        }
+      }
+    },
+    "plaza_cleared": {
+      "type": "story",
+      "content": "With the guardian defeated, you can see the central crystal clearly. Its once-bright surface is now clouded with darkness.\n\n_What will you do?_",
+      "choices": [
+        {
+          "text": "Try to purify the crystal",
+          "nextNode": "purification_attempt",
+          "conditions": [
+            {
+              "type": "stat",
+              "stat": "magic",
+              "value": 10,
+              "comparison": ">="
+            }
+          ]
+        },
+        {
+          "text": "Search for crystal sword shards",
+          "nextNode": "search_shards",
+          "conditions": [
+            {
+              "type": "variable",
+              "name": "hasMap",
+              "value": true
+            }
+          ]
+        },
+        {
+          "text": "Return to marketplace",
+          "nextNode": "marketplace"
+        }
+      ],
+      "modules": {
+        "story": {
+          "type": "story",
+          "content": "With the guardian defeated, you can see the central crystal clearly. Its once-bright surface is now clouded with darkness.\n\n_What will you do?_"
+        },
+        "graphics": {
+          "background": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23291D4D'/%3E%3Cpolygon points='50,20 80,80 20,80' fill='%237A6BB5' fill-opacity='0.5'/%3E%3C/svg%3E",
+          "animation": "pulse"
+        }
+      }
+    },
+    "purification_attempt": {
+      "type": "story",
+      "content": "You channel your magical energy into the crystal. The darkness seems to waver, but remains strong.\n\n'Only the crystal sword has the power to fully purify the corruption,' a voice echoes in your mind.",
+      "choices": [
+        {
+          "text": "Return to the plaza",
+          "nextNode": "plaza_cleared"
+        }
+      ],
+      "modules": {
+        "story": {
+          "type": "story",
+          "content": "You channel your magical energy into the crystal. The darkness seems to waver, but remains strong.\n\n'Only the crystal sword has the power to fully purify the corruption,' a voice echoes in your mind."
+        },
+        "graphics": {
+          "background": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23291D4D'/%3E%3Ccircle cx='50' cy='50' r='30' fill='%237A6BB5'/%3E%3Ccircle cx='50' cy='50' r='20' fill='%23B5A6FF'/%3E%3C/svg%3E",
+          "animation": "glow",
+          "effects": [
+            {
+              "type": "particles",
+              "color": "#B5A6FF",
+              "duration": 2000
+            }
+          ]
+        }
+      }
+    },
+    "search_shards": {
+      "type": "story",
+      "content": "The crystal map reveals three locations where the sword shards might be found:\n\n- The Ancient Catacombs\n- The Frost Peak Temple\n- The Haunted Forest",
+      "choices": [
+        {
+          "text": "Enter the Catacombs",
+          "nextNode": "catacombs_entrance"
+        },
+        {
+          "text": "Climb to Frost Peak",
+          "nextNode": "frost_peak"
+        },
+        {
+          "text": "Venture into the Forest",
+          "nextNode": "haunted_forest"
+        }
+      ],
+      "modules": {
+        "story": {
+          "type": "story",
+          "content": "The crystal map reveals three locations where the sword shards might be found:\n\n- The Ancient Catacombs\n- The Frost Peak Temple\n- The Haunted Forest"
+        },
+        "graphics": {
+          "background": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23291D4D'/%3E%3Cpath d='M20,80 L50,20 L80,80 Z' fill='%237A6BB5'/%3E%3C/svg%3E"
+        }
+      }
+    },
+    "catacombs_entrance": {
+      "type": "story",
+      "content": "The ancient catacombs stretch before you, filled with traps and undead guardians. You'll need light to proceed safely.",
+      "choices": [
+        {
+          "text": "Craft a Magic Torch",
+          "nextNode": "craft_torch",
+          "conditions": [
+            {
+              "type": "stat",
+              "stat": "magic",
+              "value": 5,
+              "comparison": ">="
+            }
+          ]
+        },
+        {
+          "text": "Buy a regular torch (25 gold)",
+          "nextNode": "buy_torch",
+          "conditions": [
+            {
+              "type": "stat",
+              "stat": "gold",
+              "value": 25,
+              "comparison": ">="
+            }
+          ]
+        },
+        {
+          "text": "Return to plaza",
+          "nextNode": "plaza_cleared"
+        }
+      ],
+      "modules": {
+        "story": {
+          "type": "story",
+          "content": "The ancient catacombs stretch before you, filled with traps and undead guardians. You'll need light to proceed safely."
+        },
+        "graphics": {
+          "background": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000000'/%3E%3Crect x='30' y='0' width='40' height='100' fill='%23191919'/%3E%3C/svg%3E",
+          "animation": "darken"
+        }
+      }
+    },
+    "craft_torch": {
+      "type": "story",
+      "content": "You channel your magic into a nearby branch, creating a magical torch that will never burn out.",
+      "choices": [
+        {
+          "text": "Enter the catacombs",
+          "nextNode": "catacombs_battle",
+          "effects": [
+            {
+              "type": "item",
+              "itemId": "magic_torch",
+              "quantity": 1
+            }
+          ]
+        }
+      ],
+      "modules": {
+        "story": {
+          "type": "story",
+          "content": "You channel your magic into a nearby branch, creating a magical torch that will never burn out."
+        },
+        "inventory": {
+          "items": [
+            {
+              "id": "magic_torch",
+              "name": "Magic Torch",
+              "description": "An eternally burning magical light",
+              "type": "equipment",
+              "slot": "offhand",
+              "effects": [
+                {
+                  "type": "stat",
+                  "stat": "magic",
+                  "value": 2
+                }
+              ]
+            }
+          ]
+        },
+        "graphics": {
+          "background": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000000'/%3E%3Ccircle cx='50' cy='50' r='30' fill='%23FFD700' fill-opacity='0.3'/%3E%3Ccircle cx='50' cy='50' r='20' fill='%23FFA500'/%3E%3C/svg%3E",
+          "animation": "flicker"
+        }
+      }
+    },
+    "catacombs_battle": {
+      "type": "battle",
+      "content": "A skeletal warrior emerges from the darkness!",
+      "choices": [
+        {
+          "text": "Continue deeper",
+          "nextNode": "catacombs_shard",
+          "condition": "victory"
+        },
+        {
+          "text": "Game Over",
+          "nextNode": "game_over",
+          "condition": "defeat"
+        }
+      ],
+      "modules": {
+        "story": {
+          "type": "story",
+          "content": "A skeletal warrior emerges from the darkness!"
+        },
+        "battle": {
+          "enemy": {
+            "name": "Skeletal Warrior",
+            "health": 60,
+            "attack": 15,
+            "defense": 5,
+            "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 50 50'%3E%3Ccircle cx='25' cy='15' r='10' fill='%23FFFFFF'/%3E%3Cpath d='M15,25 L35,25 L25,45 Z' fill='%23FFFFFF'/%3E%3C/svg%3E"
+          },
+          "rewards": {
+            "experience": 120,
+            "gold": 100,
+            "items": [
+              {
+                "id": "bone_sword",
+                "chance": 0.5
+              }
+            ]
+          }
+        },
+        "graphics": {
+          "background": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000000'/%3E%3Cpath d='M0,70 L100,70 L50,100 Z' fill='%231A1A1A'/%3E%3C/svg%3E",
+          "animation": "shake"
+        }
+      }
+    },
+    "catacombs_shard": {
+      "type": "story",
+      "content": "In a hidden chamber, you find the first shard of the crystal sword! Its power resonates with your being.",
+      "choices": [
+        {
+          "text": "Take the shard and return",
+          "nextNode": "plaza_cleared",
+          "effects": [
+            {
+              "type": "variable",
+              "name": "crystalsPurified",
+              "value": 1,
+              "operation": "add"
+            },
+            {
+              "type": "stat",
+              "stat": "attack",
+              "value": 5,
+              "operation": "add"
+            }
+          ]
+        }
+      ],
+      "modules": {
+        "story": {
+          "type": "story",
+          "content": "In a hidden chamber, you find the first shard of the crystal sword! Its power resonates with your being."
+        },
+        "graphics": {
+          "background": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23291D4D'/%3E%3Cpolygon points='50,20 65,50 35,50' fill='%23B5A6FF'/%3E%3C/svg%3E",
+          "animation": "shine",
+          "effects": [
+            {
+              "type": "flash",
+              "color": "#FFFFFF",
+              "duration": 1000
+            }
+          ]
+        }
+      }
+    },
+    "frost_peak": {
+      "type": "story",
+      "content": "The icy winds of Frost Peak howl around you. The temple lies at the summit, but the cold is deadly.",
+      "choices": [
+        {
+          "text": "Use magic to resist cold",
+          "nextNode": "frost_temple",
+          "conditions": [
+            {
+              "type": "stat",
+              "stat": "magic",
+              "value": 15,
+              "comparison": ">="
+            }
+          ]
+        },
+        {
+          "text": "Buy warm cloak (75 gold)",
+          "nextNode": "frost_temple",
+          "conditions": [
+            {
+              "type": "stat",
+              "stat": "gold",
+              "value": 75,
+              "comparison": ">="
+            }
+          ],
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "gold",
+              "value": -75
+            },
+            {
+              "type": "item",
+              "itemId": "frost_cloak",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "text": "Return to plaza",
+          "nextNode": "plaza_cleared"
+        }
+      ],
+      "modules": {
+        "story": {
+          "type": "story",
+          "content": "The icy winds of Frost Peak howl around you. The temple lies at the summit, but the cold is deadly."
+        },
+        "graphics": {
+          "background": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23B0C4DE'/%3E%3Cpolygon points='50,10 80,90 20,90' fill='%23F0F8FF'/%3E%3C/svg%3E",
+          "effects": [
+            {
+              "type": "snow",
+              "intensity": "heavy"
+            }
+          ]
+        }
+      }
+    },
+    "frost_temple": {
+      "type": "battle",
+      "content": "An ice golem guards the temple entrance!",
+      "choices": [
+        {
+          "text": "Enter the temple",
+          "nextNode": "frost_shard",
+          "condition": "victory"
+        },
+        {
+          "text": "Game Over",
+          "nextNode": "game_over",
+          "condition": "defeat"
+        }
+      ],
+      "modules": {
+        "story": {
+          "type": "story",
+          "content": "An ice golem guards the temple entrance!"
+        },
+        "battle": {
+          "enemy": {
+            "name": "Ice Golem",
+            "health": 100,
+            "attack": 20,
+            "defense": 15,
+            "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 50 50'%3E%3Crect width='50' height='50' fill='%23B0E2FF' fill-opacity='0.5'/%3E%3C/svg%3E"
+          },
+          "rewards": {
+            "experience": 200,
+            "gold": 150,
+            "items": [
+              {
+                "id": "ice_crystal",
+                "chance": 1
+              }
+            ]
+          }
+        },
+        "graphics": {
+          "background": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23E0FFFF'/%3E%3Cpath d='M20,80 L50,20 L80,80 Z' fill='%23B0E2FF'/%3E%3C/svg%3E",
+          "animation": "freeze"
+        }
+      }
+    },
+    "frost_shard": {
+      "type": "story",
+      "content": "Deep within the frozen temple, you find the second shard of the crystal sword embedded in ice. Its power sends waves of cold energy through you.",
+      "choices": [
+        {
+          "text": "Take the shard and return",
+          "nextNode": "plaza_cleared",
+          "effects": [
+            {
+              "type": "variable",
+              "name": "crystalsPurified",
+              "value": 1,
+              "operation": "add"
+            },
+            {
+              "type": "stat",
+              "stat": "defense",
+              "value": 5,
+              "operation": "add"
+            }
+          ]
+        }
+      ],
+      "modules": {
+        "story": {
+          "type": "story",
+          "content": "Deep within the frozen temple, you find the second shard of the crystal sword embedded in ice. Its power sends waves of cold energy through you."
+        },
+        "graphics": {
+          "background": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23E0FFFF'/%3E%3Cpolygon points='50,20 65,50 35,50' fill='%23B5A6FF'/%3E%3C/svg%3E",
+          "animation": "shine"
+        }
+      }
+    },
+    "haunted_forest": {
+      "type": "story",
+      "content": "The trees of the haunted forest loom before you, their branches twisting unnaturally. Strange whispers echo through the darkness.",
+      "choices": [
+        {
+          "text": "Follow the whispers",
+          "nextNode": "forest_spirit",
+          "conditions": [
+            {
+              "type": "stat",
+              "stat": "magic",
+              "value": 10,
+              "comparison": ">="
+            }
+          ]
+        },
+        {
+          "text": "Search for tracks",
+          "nextNode": "forest_battle",
+          "conditions": [
+            {
+              "type": "stat",
+              "stat": "attack",
+              "value": 15,
+              "comparison": ">="
+            }
+          ]
+        },
+        {
+          "text": "Return to plaza",
+          "nextNode": "plaza_cleared"
+        }
+      ],
+      "modules": {
+        "story": {
+          "type": "story",
+          "content": "The trees of the haunted forest loom before you, their branches twisting unnaturally. Strange whispers echo through the darkness."
+        },
+        "graphics": {
+          "background": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23203020'/%3E%3Cpath d='M30,90 L30,30 L45,10 M70,90 L70,30 L55,10' fill='none' stroke='%23304030' stroke-width='4'/%3E%3C/svg%3E",
+          "animation": "fog"
+        }
+      }
+    },
+    "forest_spirit": {
+      "type": "story",
+      "content": "A mysterious spirit materializes before you. 'Prove your worth with magic, and I shall guide you to what you seek.'",
+      "choices": [
+        {
+          "text": "Cast a purification spell",
+          "nextNode": "forest_shard",
+          "conditions": [
+            {
+              "type": "stat",
+              "stat": "magic",
+              "value": 20,
+              "comparison": ">="
+            }
+          ]
+        },
+        {
+          "text": "Try a different path",
+          "nextNode": "forest_battle"
+        }
+      ],
+      "modules": {
+        "story": {
+          "type": "story",
+          "content": "A mysterious spirit materializes before you. 'Prove your worth with magic, and I shall guide you to what you seek.'"
+        },
+        "graphics": {
+          "background": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23203020'/%3E%3Ccircle cx='50' cy='50' r='20' fill='%2380C080' fill-opacity='0.5'/%3E%3C/svg%3E",
+          "animation": "pulse"
+        }
+      }
+    },
+    "forest_battle": {
+      "type": "battle",
+      "content": "A corrupted treant blocks your path!",
+      "choices": [
+        {
+          "text": "Continue deeper",
+          "nextNode": "forest_shard",
+          "condition": "victory"
+        },
+        {
+          "text": "Game Over",
+          "nextNode": "game_over",
+          "condition": "defeat"
+        }
+      ],
+      "modules": {
+        "story": {
+          "type": "story",
+          "content": "A corrupted treant blocks your path!"
+        },
+        "battle": {
+          "enemy": {
+            "name": "Corrupted Treant",
+            "health": 120,
+            "attack": 18,
+            "defense": 12,
+            "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 50 50'%3E%3Cpath d='M25,5 L40,45 L10,45 Z' fill='%23304030'/%3E%3C/svg%3E"
+          },
+          "rewards": {
+            "experience": 180,
+            "gold": 120
+          }
+        },
+        "graphics": {
+          "background": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23203020'/%3E%3C/svg%3E",
+          "animation": "shake"
+        }
+      }
+    },
+    "forest_shard": {
+      "type": "story",
+      "content": "In a moonlit clearing, you find the final shard of the crystal sword, pulsing with nature's energy.",
+      "choices": [
+        {
+          "text": "Take the shard and return",
+          "nextNode": "final_choice",
+          "effects": [
+            {
+              "type": "variable",
+              "name": "crystalsPurified",
+              "value": 1,
+              "operation": "add"
+            },
+            {
+              "type": "stat",
+              "stat": "magic",
+              "value": 5,
+              "operation": "add"
+            }
+          ]
+        }
+      ],
+      "modules": {
+        "story": {
+          "type": "story",
+          "content": "In a moonlit clearing, you find the final shard of the crystal sword, pulsing with nature's energy."
+        },
+        "graphics": {
+          "background": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23203020'/%3E%3Ccircle cx='50' cy='30' r='15' fill='%23FFFFFF' fill-opacity='0.3'/%3E%3Cpolygon points='50,20 65,50 35,50' fill='%23B5A6FF'/%3E%3C/svg%3E",
+          "animation": "moonlight"
+        }
+      }
+    },
+    "final_choice": {
+      "type": "story",
+      "content": "With all three shards collected, the crystal sword reforms in your hands. Its power courses through you as the dark dragon descends upon the central tower.\n\n_How will you face this final challenge?_",
+      "choices": [
+        {
+          "text": "Channel magic through the sword",
+          "nextNode": "final_battle_magic",
+          "conditions": [
+            {
+              "type": "stat",
+              "stat": "magic",
+              "value": 25,
+              "comparison": ">="
+            }
+          ]
+        },
+        {
+          "text": "Rely on combat prowess",
+          "nextNode": "final_battle_warrior",
+          "conditions": [
+            {
+              "type": "stat",
+              "stat": "attack",
+              "value": 25,
+              "comparison": ">="
+            }
+          ]
+        }
+      ],
+      "modules": {
+        "story": {
+          "type": "story",
+          "content": "With all three shards collected, the crystal sword reforms in your hands. Its power courses through you as the dark dragon descends upon the central tower.\n\n_How will you face this final challenge?_"
+        },
+        "graphics": {
+          "background": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23291D4D'/%3E%3Cpath d='M20,80 L50,20 L80,80 Z' fill='%237A6BB5'/%3E%3C/svg%3E",
+          "animation": "darkStorm",
+          "effects": [
+            {
+              "type": "lightning",
+              "frequency": "high"
+            }
+          ]
+        }
+      }
+    },
+    "final_battle_magic": {
+      "type": "battle",
+      "content": "You face the dark dragon, crystal sword glowing with magical energy!",
+      "choices": [
+        {
+          "text": "Complete Victory",
+          "nextNode": "ending_perfect",
+          "condition": "victory"
+        },
+        {
+          "text": "Game Over",
+          "nextNode": "game_over",
+          "condition": "defeat"
+        }
+      ],
+      "modules": {
+        "story": {
+          "type": "story",
+          "content": "You face the dark dragon, crystal sword glowing with magical energy!"
+        },
+        "battle": {
+          "enemy": {
+            "name": "Dark Dragon",
+            "health": 200,
+            "attack": 25,
+            "defense": 20,
+            "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cpath d='M20,80 L50,20 L80,80 Z' fill='%23000000'/%3E%3C/svg%3E"
+          },
+          "rewards": {
+            "experience": 500,
+            "gold": 1000
+          }
+        },
+        "graphics": {
+          "background": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000000'/%3E%3C/svg%3E",
+          "animation": "epicBattle"
+        }
+      }
+    },
+    "final_battle_warrior": {
+      "type": "battle",
+      "content": "You face the dark dragon, crystal sword ready for combat!",
+      "choices": [
+        {
+          "text": "Victory",
+          "nextNode": "ending_warrior",
+          "condition": "victory"
+        },
+        {
+          "text": "Game Over",
+          "nextNode": "game_over",
+          "condition": "defeat"
+        }
+      ],
+      "modules": {
+        "story": {
+          "type": "story",
+          "content": "You face the dark dragon, crystal sword ready for combat!"
+        },
+        "battle": {
+          "enemy": {
+            "name": "Dark Dragon",
+            "health": 200,
+            "attack": 25,
+            "defense": 20,
+            "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cpath d='M20,80 L50,20 L80,80 Z' fill='%23000000'/%3E%3C/svg%3E"
+          },
+          "rewards": {
+            "experience": 500,
+            "gold": 1000
+          }
+        },
+        "graphics": {
+          "background": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000000'/%3E%3C/svg%3E",
+          "animation": "epicBattle"
+        }
+      }
+    },
+    "ending_perfect": {
+      "type": "ending",
+      "content": "With the perfect blend of magic and the crystal sword's power, you not only defeat the dragon but completely purify the corruption. The Crystal Kingdom shines brighter than ever, and you are hailed as its greatest hero!",
+      "choices": [
+        {
+          "text": "Play Again",
+          "nextNode": "intro"
+        }
+      ],
+      "modules": {
+        "story": {
+          "type": "story",
+          "content": "With the perfect blend of magic and the crystal sword's power, you not only defeat the dragon but completely purify the corruption. The Crystal Kingdom shines brighter than ever, and you are hailed as its greatest hero!"
+        },
+        "graphics": {
+          "background": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23B5A6FF'/%3E%3Ccircle cx='50' cy='50' r='30' fill='%23FFFFFF'/%3E%3C/svg%3E",
+          "animation": "victory"
+        }
+      }
+    },
+    "ending_warrior": {
+      "type": "ending",
+      "content": "Through strength and determination, you defeat the dragon and save the kingdom. While some corruption lingers, your legend as a mighty warrior will be told for generations!",
+      "choices": [
+        {
+          "text": "Play Again",
+          "nextNode": "intro"
+        }
+      ],
+      "modules": {
+        "story": {
+          "type": "story",
+          "content": "Through strength and determination, you defeat the dragon and save the kingdom. While some corruption lingers, your legend as a mighty warrior will be told for generations!"
+        },
+        "graphics": {
+          "background": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%237A6BB5'/%3E%3Ccircle cx='50' cy='50' r='30' fill='%23FFD700'/%3E%3C/svg%3E",
+          "animation": "triumph"
+        }
+      }
+    },
+    "game_over": {
+      "type": "ending",
+      "content": "You have fallen in battle. The Crystal Kingdom's fate remains uncertain...",
+      "choices": [
+        {
+          "text": "Try Again",
+          "nextNode": "intro"
+        }
+      ],
+      "modules": {
+        "story": {
+          "type": "story",
+          "content": "You have fallen in battle. The Crystal Kingdom's fate remains uncertain..."
+        },
+        "graphics": {
+          "background": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000000'/%3E%3Ctext x='50' y='50' font-family='Arial' font-size='20' fill='%23FF0000' text-anchor='middle'%3EGame Over%3C/text%3E%3C/svg%3E",
+          "animation": "fadeOut"
+        }
+      }
+    }
+  }
+}
