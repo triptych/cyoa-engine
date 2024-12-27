@@ -23,10 +23,16 @@ export class GameState extends EventEmitter {
                 lastModified: new Date().toISOString()
             },
             gameState: {
-                currentNode: null,
+                currentNode: 'start',
                 inventory: [],
                 variables: {},
-                stats: {},
+                stats: {
+                    health: 100,
+                    attack: 10,
+                    defense: 5,
+                    experience: 0,
+                    gold: 0
+                },
                 history: []
             },
             nodes: {}
@@ -45,14 +51,40 @@ export class GameState extends EventEmitter {
             // Validate data structure
             this.validateGameData(data);
 
+            // Create a deep copy of the data to avoid reference issues
+            const dataCopy = JSON.parse(JSON.stringify(data));
+
             // Update metadata
             this.data = {
-                ...data,
+                ...dataCopy,
                 metadata: {
-                    ...data.metadata,
+                    ...dataCopy.metadata,
                     lastModified: new Date().toISOString()
                 }
             };
+
+            // Ensure gameState has all required properties
+            if (!this.data.gameState.currentNode) {
+                this.data.gameState.currentNode = 'start';
+            }
+            if (!this.data.gameState.inventory) {
+                this.data.gameState.inventory = [];
+            }
+            if (!this.data.gameState.variables) {
+                this.data.gameState.variables = {};
+            }
+            if (!this.data.gameState.history) {
+                this.data.gameState.history = [];
+            }
+            if (!this.data.gameState.stats) {
+                this.data.gameState.stats = {
+                    health: 100,
+                    attack: 10,
+                    defense: 5,
+                    experience: 0,
+                    gold: 0
+                };
+            }
 
             this.hasUnsavedChanges = false;
             this.emit(Events.STATE_LOADED, this.data);
@@ -219,6 +251,14 @@ export class GameState extends EventEmitter {
         requiredGameState.forEach(prop => {
             if (!(prop in data.gameState)) {
                 throw new Error(`Missing required game state: ${prop}`);
+            }
+        });
+
+        // Validate stats
+        const requiredStats = ['health', 'attack', 'defense', 'experience', 'gold'];
+        requiredStats.forEach(stat => {
+            if (!(stat in data.gameState.stats)) {
+                data.gameState.stats[stat] = this.data.gameState.stats[stat];
             }
         });
 

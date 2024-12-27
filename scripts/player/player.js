@@ -12,21 +12,32 @@ export class Player {
     }
 
     init() {
-        // Initialize UI elements
-        this.container = document.getElementById('player-view');
-        this.storyContent = document.getElementById('story-content');
-        this.choicesContainer = document.getElementById('choices');
-        this.moduleContainer = document.getElementById('game-modules');
+        try {
+            // Initialize UI elements
+            this.container = document.getElementById('player-view');
+            this.storyContent = document.getElementById('story-content');
+            this.choicesContainer = document.getElementById('choices');
+            this.moduleContainer = document.getElementById('game-modules');
 
-        // Set up event listeners
-        this.setupEventListeners();
+            if (!this.container || !this.storyContent || !this.choicesContainer || !this.moduleContainer) {
+                throw new Error('Required player UI elements not found');
+            }
+
+            // Set up event listeners
+            this.setupEventListeners();
+        } catch (error) {
+            console.error('Player initialization error:', error);
+            this.app.setStatus('Error initializing player view', 'error');
+        }
     }
 
     registerCoreModuleHandlers() {
         // Story module handler
         this.registerModuleHandler('story', {
             render: (data, node) => {
-                return `<div class="story-content">${data.content}</div>`;
+                // Use either the module content or the node's content
+                const content = data?.content || node.content || '';
+                return `<div class="story-content">${content}</div>`;
             }
         });
 
@@ -182,31 +193,31 @@ export class Player {
     }
 
     startGame() {
-        // Reset game state
-        this.app.state.gameState = {
-            currentNode: null,
-            inventory: [],
-            variables: {},
-            stats: {
+        // Get the current game state from the data structure
+        const gameState = this.app.state.data.gameState;
+
+        // If no current node is set, initialize with start node
+        if (!gameState.currentNode) {
+            gameState.currentNode = 'start';
+        }
+
+        // Initialize other state properties if not present
+        if (!gameState.inventory) gameState.inventory = [];
+        if (!gameState.variables) gameState.variables = {};
+        if (!gameState.history) gameState.history = [];
+        if (!gameState.stats) {
+            gameState.stats = {
                 health: 100,
                 attack: 10,
                 defense: 5,
                 experience: 0,
                 gold: 0
-            },
-            history: []
-        };
+            };
+        }
 
-        // Find starting node (first node without incoming connections)
-        const nodes = this.app.state.getAllNodes();
-        const startNode = Object.entries(nodes).find(([id, node]) => {
-            return !Object.values(nodes).some(n =>
-                n.choices.some(c => c.nextNode === id)
-            );
-        });
-
-        if (startNode) {
-            this.navigateToNode(startNode[0]);
+        const startingNodeId = gameState.currentNode;
+        if (this.app.state.getNode(startingNodeId)) {
+            this.navigateToNode(startingNodeId);
         } else {
             this.app.setStatus('No starting node found', 'error');
         }
@@ -218,8 +229,8 @@ export class Player {
 
         // Update current node
         this.currentNode = node;
-        this.app.state.gameState.currentNode = nodeId;
-        this.app.state.gameState.history.push(nodeId);
+        this.app.state.data.gameState.currentNode = nodeId;
+        this.app.state.data.gameState.history.push(nodeId);
 
         // Render node content
         await this.renderNode(node);
@@ -259,16 +270,26 @@ export class Player {
 
     async renderChoices(node) {
         const template = document.getElementById('choice-template');
+        if (!template) {
+            console.error('Choice template not found');
+            this.app.setStatus('Error: Choice template not found', 'error');
+            return;
+        }
 
         // Filter available choices based on conditions
         const availableChoices = await this.filterAvailableChoices(node.choices);
 
-        availableChoices.forEach((choice, index) => {
-            const choiceElement = template.content.cloneNode(true).children[0];
-            choiceElement.textContent = choice.text;
-            choiceElement.dataset.index = index;
-            this.choicesContainer.appendChild(choiceElement);
-        });
+        try {
+            availableChoices.forEach((choice, index) => {
+                const choiceElement = template.content.cloneNode(true).children[0];
+                choiceElement.textContent = choice.text;
+                choiceElement.dataset.index = index;
+                this.choicesContainer.appendChild(choiceElement);
+            });
+        } catch (error) {
+            console.error('Error rendering choices:', error);
+            this.app.setStatus('Error rendering choices', 'error');
+        }
     }
 
     async filterAvailableChoices(choices) {
@@ -284,7 +305,7 @@ export class Player {
                     if (handler?.checkRequirements) {
                         isAvailable = await handler.checkRequirements(
                             moduleData,
-                            this.app.state.gameState
+                            this.app.state.data.gameState
                         );
                         if (!isAvailable) break;
                     }
@@ -296,12 +317,12 @@ export class Player {
                 isAvailable = choice.conditions.every(condition => {
                     switch (condition.type) {
                         case 'variable':
-                            return this.app.state.gameState.variables[condition.variable] === condition.value;
+                            return this.app.state.data.gameState.variables[condition.variable] === condition.value;
                         case 'item':
-                            const item = this.app.state.gameState.inventory.find(i => i.id === condition.itemId);
+                            const item = this.app.state.data.gameState.inventory.find(i => i.id === condition.itemId);
                             return item && item.quantity >= condition.quantity;
                         case 'stat':
-                            return this.app.state.gameState.stats[condition.stat] >= condition.value;
+                            return this.app.state.data.gameState.stats[condition.stat] >= condition.value;
                         default:
                             return true;
                     }
@@ -325,25 +346,25 @@ export class Player {
             choice.effects.forEach(effect => {
                 switch (effect.type) {
                     case 'variable':
-                        this.app.state.gameState.variables[effect.variable] = effect.value;
+                        this.app.state.data.gameState.variables[effect.variable] = effect.value;
                         break;
                     case 'item':
-                        const item = this.app.state.gameState.inventory.find(i => i.id === effect.itemId);
+                        const item = this.app.state.data.gameState.inventory.find(i => i.id === effect.itemId);
                         if (item) {
                             item.quantity += effect.quantity;
                             if (item.quantity <= 0) {
-                                const index = this.app.state.gameState.inventory.indexOf(item);
-                                this.app.state.gameState.inventory.splice(index, 1);
+                                const index = this.app.state.data.gameState.inventory.indexOf(item);
+                                this.app.state.data.gameState.inventory.splice(index, 1);
                             }
                         } else if (effect.quantity > 0) {
-                            this.app.state.gameState.inventory.push({
+                            this.app.state.data.gameState.inventory.push({
                                 id: effect.itemId,
                                 quantity: effect.quantity
                             });
                         }
                         break;
                     case 'stat':
-                        this.app.state.gameState.stats[effect.stat] += effect.value;
+                        this.app.state.data.gameState.stats[effect.stat] += effect.value;
                         break;
                 }
             });
@@ -361,7 +382,7 @@ export class Player {
                 const result = await handler.handleAction(
                     action,
                     moduleData,
-                    this.app.state.gameState
+                    this.app.state.data.gameState
                 );
 
                 if (result) {
@@ -393,5 +414,15 @@ export class Player {
         this.storyContent.innerHTML = '';
         this.choicesContainer.innerHTML = '';
         this.moduleContainer.innerHTML = '';
+    }
+
+    refresh() {
+        // Reset UI
+        this.reset();
+
+        // If we're in play mode, start the game with the loaded state
+        if (this.app.currentMode === 'play') {
+            this.startGame();
+        }
     }
 }

@@ -2,19 +2,20 @@
 import { Editor } from '../editor/editor.js';
 import { Player } from '../player/player.js';
 import { GameState } from './gameState.js';
-import { EventEmitter } from './events.js';
+import { EventEmitter, Events } from './events.js';
 
 class App extends EventEmitter {
     constructor() {
         super();
+        console.log('App: Constructor initialized');
         this.state = new GameState();
         this.editor = new Editor(this);
         this.player = new Player(this);
         this.currentMode = 'edit'; // 'edit' or 'play'
-        this.setupEventListeners();
     }
 
     init() {
+        console.log('App: Starting initialization');
         // Initialize UI elements
         this.editorView = document.getElementById('editor-view');
         this.playerView = document.getElementById('player-view');
@@ -29,8 +30,35 @@ class App extends EventEmitter {
         this.loadGameBtn = document.getElementById('loadGame');
         this.saveGameBtn = document.getElementById('saveGame');
 
+        // Verify all required elements are found
+        const requiredElements = {
+            'editor-view': this.editorView,
+            'player-view': this.playerView,
+            'status-bar': this.statusBar,
+            'playMode': this.playModeBtn,
+            'editMode': this.editModeBtn,
+            'newGame': this.newGameBtn,
+            'loadGame': this.loadGameBtn,
+            'saveGame': this.saveGameBtn
+        };
+
+        // Check for missing elements
+        const missingElements = Object.entries(requiredElements)
+            .filter(([_, element]) => !element)
+            .map(([id]) => id);
+
+        if (missingElements.length > 0) {
+            console.error('Missing required elements:', missingElements);
+            this.setStatus('Error: Some UI elements not found', 'error');
+            return;
+        }
+
         // Set initial mode
         this.setMode(this.currentMode);
+
+        console.log('App: Setting up event listeners');
+        // Setup event listeners after elements are initialized
+        this.setupEventListeners();
 
         // Initialize modules
         this.editor.init();
@@ -38,14 +66,24 @@ class App extends EventEmitter {
     }
 
     setupEventListeners() {
+        console.log('App: Adding event listeners to buttons');
         // Mode switching
-        this.playModeBtn?.addEventListener('click', () => this.setMode('play'));
-        this.editModeBtn?.addEventListener('click', () => this.setMode('edit'));
+        this.playModeBtn.addEventListener('click', () => this.setMode('play'));
+        this.editModeBtn.addEventListener('click', () => this.setMode('edit'));
 
         // File operations
-        this.newGameBtn?.addEventListener('click', () => this.newGame());
-        this.loadGameBtn?.addEventListener('click', () => this.loadGame());
-        this.saveGameBtn?.addEventListener('click', () => this.saveGame());
+        this.newGameBtn.addEventListener('click', () => {
+            console.log('New Game button clicked');
+            this.newGame();
+        });
+        this.loadGameBtn.addEventListener('click', () => {
+            console.log('Load Game button clicked');
+            this.loadGame();
+        });
+        this.saveGameBtn.addEventListener('click', () => {
+            console.log('Save Game button clicked');
+            this.saveGame();
+        });
 
         // Handle keyboard shortcuts
         document.addEventListener('keydown', (e) => {
@@ -73,27 +111,41 @@ class App extends EventEmitter {
 
         // Update UI
         if (mode === 'play') {
-            this.editorView?.classList.add('hidden');
-            this.playerView?.classList.remove('hidden');
-            this.playModeBtn?.classList.add('active');
-            this.editModeBtn?.classList.remove('active');
+            // Ensure we have a valid game state before switching to play mode
+            if (!this.state.data || !this.state.data.gameState) {
+                this.setStatus('No game data loaded', 'error');
+                return;
+            }
+
+            this.editorView.classList.add('hidden');
+            this.playerView.classList.remove('hidden');
+            this.playModeBtn.classList.add('active');
+            this.editModeBtn.classList.remove('active');
         } else {
-            this.playerView?.classList.add('hidden');
-            this.editorView?.classList.remove('hidden');
-            this.editModeBtn?.classList.add('active');
-            this.playModeBtn?.classList.remove('active');
+            this.playerView.classList.add('hidden');
+            this.editorView.classList.remove('hidden');
+            this.editModeBtn.classList.add('active');
+            this.playModeBtn.classList.remove('active');
         }
 
         // Emit mode change event
-        this.emit('modeChange', { mode });
+        this.emit(Events.MODE_CHANGE, { mode });
     }
 
     async newGame() {
+        console.log('newGame: Starting');
         if (await this.confirmUnsavedChanges()) {
+            console.log('newGame: No unsaved changes or user confirmed');
             this.state.reset();
+            console.log('newGame: State reset');
             this.editor.reset();
+            console.log('newGame: Editor reset');
             this.player.reset();
+            console.log('newGame: Player reset');
             this.setStatus('New game created');
+            console.log('newGame: Status updated');
+        } else {
+            console.log('newGame: Cancelled due to unsaved changes');
         }
     }
 
@@ -176,6 +228,12 @@ class App extends EventEmitter {
 
 // Initialize the application when the DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM Content Loaded');
     window.app = new App();
     window.app.init();
+});
+
+// Add error handling for module loading
+window.addEventListener('error', (event) => {
+    console.error('Script error:', event.error);
 });

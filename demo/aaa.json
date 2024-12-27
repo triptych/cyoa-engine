@@ -1,0 +1,232 @@
+{
+  "version": "1.0",
+  "metadata": {
+    "title": "The Enchanted Forest",
+    "author": "Demo Creator",
+    "created": "2024-01-01T00:00:00.000Z",
+    "lastModified": "2024-12-27T03:05:09.460Z"
+  },
+  "gameState": {
+    "currentNode": "start",
+    "inventory": [
+      {
+        "id": "sword",
+        "quantity": 1
+      }
+    ],
+    "variables": {},
+    "stats": {
+      "health": 96,
+      "attack": 20,
+      "defense": 10,
+      "experience": 100,
+      "gold": 50
+    },
+    "history": [
+      "start",
+      "forest_clearing",
+      "goblin_battle",
+      "victory",
+      "start",
+      "find_sword",
+      "forest_clearing",
+      "run_away",
+      "start"
+    ]
+  },
+  "nodes": {
+    "start": {
+      "type": "story",
+      "content": "You find yourself at the edge of an enchanted forest. The trees whisper ancient secrets, and a mysterious path leads deeper into the woods.",
+      "choices": [
+        {
+          "text": "Follow the path into the forest",
+          "nextNode": "forest_clearing"
+        },
+        {
+          "text": "Search the area first",
+          "nextNode": "find_sword"
+        }
+      ],
+      "modules": {
+        "story": {
+          "type": "story",
+          "content": "You find yourself at the edge of an enchanted forest. The trees whisper ancient secrets, and a mysterious path leads deeper into the woods."
+        },
+        "graphics": {
+          "background": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23234236'/%3E%3Ccircle cx='50' cy='30' r='20' fill='%23478c5c'/%3E%3Cpath d='M0 70 L100 70 L50 100 Z' fill='%23355a48'/%3E%3C/svg%3E"
+        }
+      }
+    },
+    "find_sword": {
+      "type": "story",
+      "content": "While searching the area, you discover an old sword partially buried in the ground. It looks well-crafted despite its age.",
+      "choices": [
+        {
+          "text": "Take the sword and continue to the forest",
+          "nextNode": "forest_clearing",
+          "effects": [
+            {
+              "type": "item",
+              "itemId": "sword",
+              "quantity": 1
+            },
+            {
+              "type": "stat",
+              "stat": "attack",
+              "value": 5
+            }
+          ]
+        }
+      ],
+      "modules": {
+        "story": {
+          "type": "story",
+          "content": "While searching the area, you discover an old sword partially buried in the ground. It looks well-crafted despite its age."
+        },
+        "inventory": {
+          "items": [
+            {
+              "id": "sword",
+              "name": "Ancient Sword",
+              "quantity": 1
+            }
+          ]
+        }
+      }
+    },
+    "forest_clearing": {
+      "type": "story",
+      "content": "You enter a peaceful clearing in the forest. Suddenly, a goblin jumps out from behind a tree!",
+      "choices": [
+        {
+          "text": "Fight the goblin",
+          "nextNode": "goblin_battle",
+          "conditions": [
+            {
+              "type": "item",
+              "itemId": "sword",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "text": "Try to run away",
+          "nextNode": "run_away"
+        }
+      ],
+      "modules": {
+        "story": {
+          "type": "story",
+          "content": "You enter a peaceful clearing in the forest. Suddenly, a goblin jumps out from behind a tree!"
+        },
+        "graphics": {
+          "background": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23355a48'/%3E%3Ccircle cx='50' cy='30' r='15' fill='%23ffd700'/%3E%3Cellipse cx='50' cy='85' rx='40' ry='15' fill='%23478c5c'/%3E%3C/svg%3E",
+          "characters": [
+            {
+              "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 50 50'%3E%3Ccircle cx='25' cy='15' r='10' fill='%23a1c181'/%3E%3Cpath d='M15 25 L35 25 L25 45 Z' fill='%23a1c181'/%3E%3C/svg%3E",
+              "position": "center",
+              "animation": "fadeIn"
+            }
+          ]
+        }
+      }
+    },
+    "goblin_battle": {
+      "type": "battle",
+      "content": "The goblin brandishes its crude weapon. Prepare for battle!",
+      "choices": [
+        {
+          "text": "Continue",
+          "nextNode": "victory",
+          "condition": "victory"
+        },
+        {
+          "text": "Game Over",
+          "nextNode": "game_over",
+          "condition": "defeat"
+        },
+        {
+          "text": "Run Away",
+          "nextNode": "run_away",
+          "condition": "fled"
+        }
+      ],
+      "modules": {
+        "story": {
+          "type": "story",
+          "content": "The goblin brandishes its crude weapon. Prepare for battle!"
+        },
+        "battle": {
+          "enemy": {
+            "name": "Forest Goblin",
+            "health": 0,
+            "attack": 8,
+            "defense": 5
+          },
+          "rewards": {
+            "experience": 100,
+            "gold": 50
+          }
+        }
+      }
+    },
+    "victory": {
+      "type": "ending",
+      "content": "You've defeated the goblin! The forest seems a bit safer now thanks to your bravery.",
+      "choices": [
+        {
+          "text": "Play Again",
+          "nextNode": "start"
+        }
+      ],
+      "modules": {
+        "story": {
+          "type": "story",
+          "content": "You've defeated the goblin! The forest seems a bit safer now thanks to your bravery."
+        },
+        "graphics": {
+          "background": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23478c5c'/%3E%3Ccircle cx='50' cy='30' r='15' fill='%23ffd700'/%3E%3Cpath d='M20 70 L80 70 L50 90 Z' fill='%23355a48'/%3E%3C/svg%3E"
+        }
+      }
+    },
+    "game_over": {
+      "type": "ending",
+      "content": "The goblin proved too strong. Your adventure ends here...",
+      "choices": [
+        {
+          "text": "Try Again",
+          "nextNode": "start"
+        }
+      ],
+      "modules": {
+        "story": {
+          "type": "story",
+          "content": "The goblin proved too strong. Your adventure ends here..."
+        },
+        "graphics": {
+          "background": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23433'/%3E%3Cpath d='M25 40 L75 40 L50 70 Z' fill='%23744'/%3E%3C/svg%3E"
+        }
+      }
+    },
+    "run_away": {
+      "type": "ending",
+      "content": "You manage to escape from the goblin, but the mystery of the enchanted forest remains unsolved...",
+      "choices": [
+        {
+          "text": "Try Again",
+          "nextNode": "start"
+        }
+      ],
+      "modules": {
+        "story": {
+          "type": "story",
+          "content": "You manage to escape from the goblin, but the mystery of the enchanted forest remains unsolved..."
+        },
+        "graphics": {
+          "background": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23234236'/%3E%3Cpath d='M0 30 L100 30 L50 80 Z' fill='%23355a48'/%3E%3C/svg%3E"
+        }
+      }
+    }
+  }
+}
